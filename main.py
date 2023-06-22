@@ -17,13 +17,11 @@ def get_baseline_data(sheet_name, url: str) -> DataFrame:
 
 
 def get_books_data(filename: str) -> DataFrame:
-    dfs = []
     dtype = {'Dewey': str}
     usecols = ['Date', 'Dewey', 'Author', 'Title']
-    for year in range(2017, 2024):
-        sheet_name = str(year) + ' Counts'
-        dfs.append(read_excel(dtype=dtype, engine='openpyxl', io=filename, sheet_name=sheet_name, usecols=usecols, ))
-    return concat(dfs)
+    return concat(
+        [read_excel(dtype=dtype, engine='openpyxl', io=filename, sheet_name=str(year) + ' Counts', usecols=usecols, )
+         for year in range(2017, 2024)])
 
 
 def load_settings(filename: str, ) -> dict:
